@@ -117,4 +117,4 @@ Start-Process "C:\Program Files (x86)\IIS Express\iisexpress.exe" -ArgumentList 
 
 ## 🔗 Projeyi İncele
 
-[👉 [GitHub Repository Linkini Buraya Ekle]](https://github.com/silasonmez/ShapeCalc.git)
+👉 (https://github.com/silasonmez/ShapeCalc.git)
