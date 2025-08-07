@@ -85,13 +85,8 @@ Start-Process "C:\Program Files (x86)\IIS Express\iisexpress.exe" -ArgumentList 
 ## 📦 **Veritabanı Kolonları (örnek)**
 
 ```
-Id             INT PRIMARY KEY
-ShapeType      NVARCHAR(50)
-Parameter1     FLOAT
-Parameter2     FLOAT
-AreaOrVolume   FLOAT
-IsCalculated   BIT
-CreatedAt      DATETIME
+<img width="609" height="284" alt="image" src="https://github.com/user-attachments/assets/1a4557f8-54d6-4f3b-b34b-7d95af200dc2" />
+
 ```
 
 > ✅ Bu tablo `ComputeApi` tarafından doldurulan ve `DXApplication1` üzerinden görüntülenen temel veri yapısını temsil eder.
