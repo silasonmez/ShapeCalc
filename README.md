@@ -85,7 +85,8 @@ Start-Process "C:\Program Files (x86)\IIS Express\iisexpress.exe" -ArgumentList 
 ## 📦 **Veritabanı Kolonları (örnek)**
 
 ```
-<img width="609" height="284" alt="image" src="https://github.com/user-attachments/assets/1a4557f8-54d6-4f3b-b34b-7d95af200dc2" />
+<img width="609" height="284" alt="Ekran görüntüsü 2025-08-07 165111" src="https://github.com/user-attachments/assets/c865f081-e54c-4d81-9b7d-2506bd446323" />
+
 
 ```
 
