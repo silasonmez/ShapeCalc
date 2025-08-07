@@ -1,0 +1,35 @@
+﻿@using DevExpress.Web.Mvc.UI
+@using DevExpress.Web.Mvc
+@{
+    ViewBag.Title = "Hoş Geldiniz";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // varsa layout tanımı
+}
+
+<div style="max-width: 500px; margin: 100px auto; text-align: center; padding: 30px; border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.1); background-color: #fdfdfd;">
+    <h2 style="margin-bottom: 20px; font-size: 30px; color: #2c3e50;">🌟 Hoş Geldiniz</h2>
+    <p style="font-size: 16px; margin-bottom: 30px;">Lütfen giriş yapın veya kayıt olun:</p>
+
+    <div style="margin-bottom: 15px;">
+        @Html.DevExpress().Button(settings =>
+        {
+            settings.Name = "btnLogin";
+            settings.Text = "Giriş Yap";
+            settings.Width = Unit.Percentage(100);
+           // settings.RenderStyle = ButtonRenderStyle.Primary;
+            settings.UseSubmitBehavior = false;
+            settings.ClientSideEvents.Click = "function() { window.location = '" + Url.Action("Login", "Account") + "'; }";
+        }).GetHtml()
+    </div>
+
+    <div>
+        @Html.DevExpress().Button(settings =>
+        {
+            settings.Name = "btnRegister";
+            settings.Text = "Kayıt Ol";
+            settings.Width = Unit.Percentage(100);
+            //settings.RenderStyle = ButtonRenderStyle.Success;
+            settings.UseSubmitBehavior = false;
+            settings.ClientSideEvents.Click = "function() { window.location = '" + Url.Action("Register", "Account") + "'; }";
+        }).GetHtml()
+    </div>
+</div>

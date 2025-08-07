@@ -1,0 +1,121 @@
+﻿@using DXApplication1.Models
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "Oturum aç";
+}
+
+<style>
+    .login-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - 80px);
+        background-color: #f0f2f5;
+        background-image: url('/Content/images/login-bg.svg'); /* isteğe bağlı arka plan */
+        background-repeat: no-repeat;
+        background-size: 300px;
+        background-position: bottom right;
+    }
+
+    .login-card {
+        background-color: #fff;
+        padding: 40px 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+    }
+
+        .login-card h4 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .login-card .btn-primary {
+            width: 100%;
+        }
+
+        .login-card p {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+    .social-login {
+        margin-top: 30px;
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4>Oturum açmak için bir yerel hesap kullanın.</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <!-- E-posta -->
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                    @Html.DevExpress().TextBox(settings =>
+                    {
+                        settings.Name = nameof(Model.Email);
+                        settings.Properties.NullText = "E-posta adresi";
+                        settings.Width = Unit.Percentage(100);
+                    }).Bind(Model?.Email).GetHtml()
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Parola -->
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                    @Html.DevExpress().TextBox(settings =>
+                    {
+                        settings.Name = nameof(Model.Password);
+                        settings.Properties.Password = true;
+                        settings.Properties.NullText = "Parola";
+                        settings.Width = Unit.Percentage(100);
+                    }).Bind(Model?.Password).GetHtml()
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Beni Hatırla -->
+                <div class="form-group">
+                    @Html.DevExpress().CheckBox(settings =>
+                    {
+                        settings.Name = nameof(Model.RememberMe);
+                        settings.Text = "Beni hatırla";
+                    }).Bind(Model?.RememberMe).GetHtml()
+                    @Html.ValidationMessageFor(m => m.RememberMe, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Giriş Butonu -->
+                <div class="form-group">
+                    @Html.DevExpress().Button(settings =>
+                    {
+                        settings.Name = "LoginButton";
+                        settings.Text = "🔒 Oturum Aç";
+                        settings.UseSubmitBehavior = true;
+                        settings.Width = Unit.Percentage(100);
+                        // Eski sürümde hata varsa RenderMode kaldırabilirsin
+                        // settings.RenderMode = ButtonRenderMode.Primary;
+                    }).GetHtml()
+                </div>
+
+                <p>
+                    @Html.ActionLink("Yeni bir kullanıcı olarak kaydol", "Register")
+                </p>
+            }
+        </section>
+
+        <!-- Sosyal Giriş -->
+        <div class="social-login">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </div>
+    </div>
+</div>

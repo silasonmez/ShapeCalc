@@ -1,0 +1,16 @@
+# Visual Studio klasörleri
+.vs/
+*.user
+*.suo
+
+# Build klasörleri
+bin/
+obj/
+
+# NuGet paketleri
+packages/
+
+# Çöp dosyalar
+*.log
+*.DS_Store
+.env

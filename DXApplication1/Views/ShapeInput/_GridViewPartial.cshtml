@@ -1,0 +1,131 @@
+﻿@model IEnumerable<DXApplication1.Models.ShapeInput>
+@using System
+@using System.Collections.Generic
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "shapeInputGrid";
+
+
+
+    settings.KeyFieldName = "Id";
+    settings.Width = Unit.Pixel(1000);
+    settings.ControlStyle.CssClass = "sabit-grid";
+
+    settings.CallbackRouteValues = new { Controller = "ShapeInput", Action = "GridViewPartial" };
+    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "ShapeInput", Action = "GridViewPartialAddNew" };
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "ShapeInput", Action = "GridViewPartialUpdate" };
+    settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "ShapeInput", Action = "GridViewPartialDelete" };
+
+    // ✅ Inline edit ve sayfa yüklenince direkt yeni satır aç
+    settings.SettingsEditing.Mode = DevExpress.Web.GridViewEditingMode.Inline;
+
+
+    settings.SettingsBehavior.ConfirmDelete = true;
+
+    // 🔽 ShapeType alanı (dropdown)
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ShapeType";
+        column.Caption = "Şekil Türü";
+        column.EditorProperties().ComboBox(cb =>
+        {
+            cb.TextField = "Text";
+            cb.ValueField = "Value";
+            cb.DataSource = new List<SelectListItem> {
+                new SelectListItem { Text = "Kare", Value = "Kare" },
+                new SelectListItem { Text = "Dikdörtgen", Value = "Dikdörtgen" },
+                new SelectListItem { Text = "Üçgen", Value = "Üçgen" }
+            };
+            cb.Width = Unit.Pixel(100);
+            cb.ClientSideEvents.SelectedIndexChanged = "onShapeTypeChanged";
+        });
+    });
+
+    // 🔽 Parametre1 alanı
+    settings.Columns.Add(c =>
+    {
+        c.FieldName = "Parameter1";
+        c.Caption = "Parametre 1";
+        c.EditorProperties().TextBox(tb =>
+        {
+            tb.ClientSideEvents.ValueChanged = "onParam1Changed";
+        });
+    });
+
+    // 🔽 Parametre2 alanı
+    settings.Columns.Add(c =>
+    {
+        c.FieldName = "Parameter2";
+        c.Caption = "Parametre 2";
+        c.EditorProperties().TextBox(tb => { });
+    });
+
+    // 🔽 Diğer alanlar (salt okunur)
+    settings.Columns.Add(c =>
+    {
+        c.FieldName = "CreatedAt";
+        c.Caption = "Oluşturulma Tarihi";
+        c.PropertiesEdit.DisplayFormatString = "g";
+        c.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        c.ReadOnly = true;
+    });
+
+    settings.Columns.Add(c =>
+    {
+        c.FieldName = "IsCalculated";
+        c.Caption = "Durum";
+        c.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        c.ReadOnly = true;
+    });
+
+    settings.Columns.Add(c =>
+    {
+        c.FieldName = "Area";
+        c.Caption = "Alan";
+        c.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.False;
+        c.ReadOnly = true;
+    });
+
+    // 🔽 Komutlar
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowNewButtonInHeader = true;
+
+    settings.SettingsPager.PageSize = 10;
+
+}).Bind(Model).GetHtml()
+
+
+
+<script type="text/javascript">
+    function onGridInit(s, e) {
+        s.AddNewRow(); // Sayfa açılınca otomatik yeni satır aç
+    }
+
+    function onShapeTypeChanged(s, e) {
+        var shapeType = s.GetValue();
+        var grid = ASPxClientGridView.Cast('shapeInputGrid');
+        var param2 = grid.GetEditor("Parameter2");
+
+        grid.GetEditor("Parameter1").SetEnabled(true);
+
+        if (shapeType === "Kare") {
+            param2.SetEnabled(false);
+            var param1Val = grid.GetEditor("Parameter1").GetValue();
+            param2.SetValue(param1Val);
+        } else {
+            param2.SetEnabled(true);
+        }
+    }
+
+    function onParam1Changed(s, e) {
+        var grid = ASPxClientGridView.Cast('shapeInputGrid');
+        var shapeType = grid.GetEditor("ShapeType").GetValue();
+        if (shapeType === "Kare") {
+            var param2 = grid.GetEditor("Parameter2");
+            param2.SetValue(s.GetValue());
+        }
+    }
+</script>

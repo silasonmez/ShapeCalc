@@ -1,0 +1,101 @@
+﻿@using DXApplication1.Models
+@model RegisterViewModel
+
+@{
+    ViewBag.Title = "Kaydol";
+}
+
+<style>
+    .register-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - 80px);
+        background-color: #f0f2f5;
+        background-image: url('/Content/images/register-bg.svg'); /* isteğe bağlı */
+        background-repeat: no-repeat;
+        background-size: 300px;
+        background-position: bottom right;
+    }
+
+    .register-card {
+        background-color: #fff;
+        padding: 40px 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+    }
+
+        .register-card h4 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .register-card .btn-primary {
+            width: 100%;
+        }
+</style>
+
+<div class="register-wrapper">
+    <div class="register-card">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h4>Yeni bir hesap oluşturun.</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <!-- E-posta -->
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                @Html.DevExpress().TextBox(settings =>
+                {
+                    settings.Name = nameof(Model.Email);
+                    settings.Properties.NullText = "E-posta adresi";
+                    settings.Width = Unit.Percentage(100);
+                }).Bind(Model?.Email).GetHtml()
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Parola -->
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                @Html.DevExpress().TextBox(settings =>
+                {
+                    settings.Name = nameof(Model.Password);
+                    settings.Properties.Password = true;
+                    settings.Properties.NullText = "Parola";
+                    settings.Width = Unit.Percentage(100);
+                }).Bind(Model?.Password).GetHtml()
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Parola Tekrar -->
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
+                @Html.DevExpress().TextBox(settings =>
+                {
+                    settings.Name = nameof(Model.ConfirmPassword);
+                    settings.Properties.Password = true;
+                    settings.Properties.NullText = "Parolayı tekrar girin";
+                    settings.Width = Unit.Percentage(100);
+                }).Bind(Model?.ConfirmPassword).GetHtml()
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- DevExpress Kayıt Butonu -->
+            <div class="form-group">
+                @Html.DevExpress().Button(settings =>
+                {
+                    settings.Name = "RegisterButton";
+                    settings.Text = "👤 Kaydol";
+                    settings.UseSubmitBehavior = true;
+                    settings.Width = Unit.Percentage(100);
+                    //settings.RenderMode = ButtonRenderMode.Primary;
+                }).GetHtml()
+            </div>
+        }
+    </div>
+</div>

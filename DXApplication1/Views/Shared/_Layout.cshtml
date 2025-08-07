@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="icon" type="image/png" href="~/Images/favicon.png" />
+
+
+    <meta charset="UTF-8" />
+    <title>@ViewBag.Title</title>
+
+    @Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }
+    )
+    @Html.DevExpress().GetScripts(
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new Script { ExtensionSuite = ExtensionSuite.Editors },
+        new Script { ExtensionSuite = ExtensionSuite.GridView }
+    )
+
+
+    <style>
+        .menu-item {
+            padding: 5px 4px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .dxmControl {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    @if (Request.IsAuthenticated)
+    {
+        <div style="background-color: #f8f9fa; border-bottom: 1px solid #ccc; padding: 2px 0;">
+            @Html.DevExpress().Menu(settings =>
+            {
+                settings.Name = "MainMenu";
+                settings.Width = Unit.Percentage(100);
+                settings.Orientation = System.Web.UI.WebControls.Orientation.Horizontal;
+                settings.AllowSelectItem = false;
+                settings.ControlStyle.CssClass = "custom-navbar";
+
+                // Sol taraftaki sekmeler
+                settings.Items.Add(item =>
+                {
+                    item.Text = "🏠 Anasayfa";
+                    item.NavigateUrl = Url.Action("UserHome", "Home");
+                    item.ItemStyle.CssClass = "navbar-item";
+                });
+
+                settings.Items.Add(item =>
+                {
+                    item.Text = "📐 Hesapla";
+                    item.NavigateUrl = Url.Action("Index", "ShapeInput");
+                    item.ItemStyle.CssClass = "navbar-item";
+                });
+
+
+                /*
+                
+                // Sağ tarafta kullanıcı selamı
+                settings.Items.Add(item =>
+                {
+                    var fullEmail = User.Identity.Name;
+                    var userName = fullEmail.Split('@')[0];
+                    item.Text = $"👋 Merhaba, {userName}";
+                    item.Enabled = false;
+                    item.Alignment = DevExpress.Web.MenuItemAlignment.Right;
+                    item.ItemStyle.CssClass = "navbar-user";
+                });
+              */
+
+                // Sağda çıkış butonu
+                settings.Items.Add(item =>
+                {
+                    item.Text = "🚪 Çıkış";
+                    item.NavigateUrl = "javascript:document.getElementById('logoutForm').submit();";
+                    item.Alignment = DevExpress.Web.MenuItemAlignment.Right;
+                    item.ItemStyle.CssClass = "navbar-item";
+                });
+            }).GetHtml()
+        </div>
+    }
+
+    <!-- 🔹 SAYFA İÇERİĞİ  -->
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @RenderSection("Scripts", required: false)
+
+    <form id="logoutForm" method="post" action="@Url.Action("LogOff", "Account")" style="display:none;">
+        @Html.AntiForgeryToken()
+    </form>
+</body>
+</html>
+
+
+
+
+
