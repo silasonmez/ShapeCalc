@@ -84,11 +84,11 @@ Start-Process "C:\Program Files (x86)\IIS Express\iisexpress.exe" -ArgumentList 
 
 ## 📦 **Veritabanı Kolonları (örnek)**
 
-```
+
 <img width="609" height="284" alt="Ekran görüntüsü 2025-08-07 165111" src="https://github.com/user-attachments/assets/c865f081-e54c-4d81-9b7d-2506bd446323" />
 
 
-```
+
 
 > ✅ Bu tablo `ComputeApi` tarafından doldurulan ve `DXApplication1` üzerinden görüntülenen temel veri yapısını temsil eder.
 
@@ -117,4 +117,4 @@ Start-Process "C:\Program Files (x86)\IIS Express\iisexpress.exe" -ArgumentList 
 
 ## 🔗 Projeyi İncele
 
-👉 [GitHub Repository Linkini Buraya Ekle]
+[👉 [GitHub Repository Linkini Buraya Ekle]](https://github.com/silasonmez/ShapeCalc.git)
