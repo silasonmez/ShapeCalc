@@ -26,7 +26,7 @@ ShapeCalc, kullanıcıların DevExpress GridView arayüzü üzerinden kare, dikd
 1. Kullanıcı Portal arayüzünden şekil bilgisi girer.
 2. InputApi, bu verileri `IsCalculated = false` filtresiyle alır ve uygun paketlere böler.
 3. ComputeApi, gelen verileri türüne göre işler (örneğin kare → alan = kenar²).
-4. Hesaplanan sonuçlar `IsCalculated = true` olarak işaretlenir ve `Area` alanına yazılır.
+4. Hesaplanan sonuçlar `IsCalculated = true` olarak işaretlenir ve `AreaOrVolume` alanına yazılır.
 
 ---
 
@@ -52,34 +52,73 @@ ShapeCalc, kullanıcıların DevExpress GridView arayüzü üzerinden kare, dikd
 6. Sonuçlar arka planda hesaplanıp GridView'e yansıtılacaktır.
 
 ---
+
 ## 🌐 Çoklu Port Mimarisi (Multi-API Çalıştırma)
 
 Proje geliştirici ortamında birden fazla portta çalışan bağımsız servislerden oluşur. Her servis farklı portlarda ayağa kalkar ve aralarında veri akışı REST API'ler üzerinden gerçekleşir.
----
 
 ### 🔗 Kullanılan Portlar
 
 - 🟢 `InputApi` → http://localhost:7001 (Visual Studio üzerinden başlatılır)
 - 🔵 `ComputeApi` → http://localhost:7002 (PowerShell ile manuel başlatılır)
 - 🟠 `DXApplication1` (Portal arayüzü) → http://localhost:63563 (Visual Studio’dan başlatılır)
----
 
 ### 🛠️ ComputeApi’yi manuel çalıştırmak için:
 
 ```powershell
 Start-Process "C:\Program Files (x86)\IIS Express\iisexpress.exe" -ArgumentList '/path:"C:\Users\silas\Desktop\staj25\portal\ComputeApi"', '/port:7002'
+```
+
+> Bu sayede `InputApi`, Portal'dan gelen istekleri `ComputeApi`'ye iletebilir. Her servis bağımsız portlarda çalıştığı için, gerçekçi bir çok katmanlı mimari elde edilir.
 
 ---
 
-## 🧪 Test Süreci
+## 🧪 **Test Süreci**
 
-- ✅ Kullanıcı giriş ve yetkilendirme işlemleri
-- ✅ GridView üzerinden CRUD testleri
-- ✅ API çağrıları Postman ile test edildi
-- ✅ `InputApi` → `ComputeApi` veri akışı başarıyla doğrulandı
+- ✅ **Kullanıcı giriş ve yetkilendirme işlemleri**
+- ✅ **GridView üzerinden CRUD testleri**
+- ✅ **API çağrıları Postman ile test edildi**
+- ✅ **InputApi → ComputeApi veri akışı başarıyla doğrulandı**
 
 ---
 
-## 📦 Veritabanı Kolonları (örnek)
+## 📦 **Veritabanı Kolonları (örnek)**
 
-<img width="610" height="276" alt="image" src="https://github.com/user-attachments/assets/66a7a79a-dbdf-4685-95d0-79299bff65c1" />
+```
+Id             INT PRIMARY KEY
+ShapeType      NVARCHAR(50)
+Parameter1     FLOAT
+Parameter2     FLOAT
+AreaOrVolume   FLOAT
+IsCalculated   BIT
+CreatedAt      DATETIME
+```
+
+> ✅ Bu tablo `ComputeApi` tarafından doldurulan ve `DXApplication1` üzerinden görüntülenen temel veri yapısını temsil eder.
+
+---
+
+## 🧠 Öğrenilenler
+
+- DevExpress GridView ile inline form geliştirme
+- ASP.NET Identity ile kullanıcı yönetimi
+- TempData ve ViewBag kullanımı
+- Çok katmanlı (UI/API1/API2) sistem tasarımı
+- REST mimarisi ile veri paylaşımı
+- Gerçek zamanlı hesaplama akışı kurulumu
+- Git ve GitHub yönetimi
+
+---
+
+## 👥 Hedef Kullanıcı Kitlesi
+
+- Ortaokul & lise düzeyindeki öğrenciler
+- Matematik öğretmenleri
+- Mühendislik öğrencileri
+- Teknik çizim ve analiz yapan kullanıcılar
+
+---
+
+## 🔗 Projeyi İncele
+
+👉 [GitHub Repository Linkini Buraya Ekle]
